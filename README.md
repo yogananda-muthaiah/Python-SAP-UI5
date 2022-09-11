@@ -9,5 +9,6 @@
 ### Deploy to SAP BTP using Cloud Foundry
 
 ```
+cf login --sso
 cf push <appname>
 ```
