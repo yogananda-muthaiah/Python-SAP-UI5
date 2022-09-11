@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+		<meta charset="utf-8">
+
+		<title>Sample App created to test</title>
+		<style>
+			html {height: 15vh;}
+		</style>
+
+		<script id='sap-ui-bootstrap'
+				src='https://ui5.sap.com/resources/sap-ui-core.js'
+				data-sap-ui-theme='sap_fiori_3'
+				data-sap-ui-libs='sap.m,sap.f,sap.viz,sap.ui.integration'
+				data-sap-ui-xx-bindingSyntax='complex'>
+		</script>
+
+		<script id="myXml" type="text/xmldata">
+			<mvc:View
+					xmlns:mvc="sap.ui.mvc"
+					xmlns="sap.f"
+					xmlns:m="sap.m"
+					height="10%"
+					controllerName="myController" >
+				<ShellBar
+						title="Bundesliga"
+						secondTitle="Football Players"
+						homeIcon="https://sapui5.hana.ondemand.com/resources/sap/ui/documentation/sdk/images/logo_ui5.png"
+						homeIconPressed="onHomeIconPressed"
+						avatarPressed="onAvatarPressed"
+						showMenuButton="false"
+						showCopilot="true"
+						showSearch="true"
+						showNotifications="true"
+						showProductSwitcher="true">
+						<profile>
+							<Avatar initials="UI"/>
+						</profile>
+				</ShellBar>				
+			</mvc:View>
+		</script>
+
+		<script>
+			sap.ui.controller("myController", {
+				onInit: function() {					
+				},
+				doSomething: function() {
+					alert("Hello World!");
+				},
+				
+				onAvatarPressed: function () {
+					alert('Avatar is pressed');
+				},
+				
+				/* 
+				 * Issue: Event Callback is not triggered!
+				 */
+				onHomeIconPressed() {
+					alert("home icon pressed!");
+				},				
+				
+				onMenuItemSelected() {
+					alert("menu item has been selected!");
+				}
+			});
+			sap.ui.xmlview({ viewContent: jQuery('#myXml').html() }).placeAt("content");
+		</script>
+	
+	<script>
+		sap.ui.require([
+			"sap/ui/model/json/JSONModel",
+			"sap/m/Table",
+			"sap/m/Column",
+			"sap/m/Text",
+			"sap/m/ColumnListItem",
+			"sap/m/Page",
+			"sap/m/App"
+		], function(JSONModel, Table, Column, Text, ColumnListItem, Page, App) {
+			// create the data
+
+			// create some dummy JSON data
+			var data = {
+				names: [
+					{firstName: "Sadio", lastName: "Mané"},
+					{firstName: "Thomas", lastName: "Mueller"},
+					{firstName: "Joshua", lastName: "Kimmich"},
+					{firstName: "Leroy", lastName: "Sane"},
+					{firstName: "Jamal", lastName: "Musiala"}
+				]  
+			};
+
+			// create a Model with this data
+			var model = new JSONModel();
+			model.setData(data);
+
+
+			// create the UI
+
+			// create a sap.m.Table control
+			var table = new Table({
+				columns: [
+					new Column({header: new Text({text: "Last Name"})}),
+					new Column({header: new Text({text: "First Name"})})
+				],
+				//items: new ColumnListItem()
+			});
+
+			// bind the Table items to the data collection
+			table.bindItems({
+				path : "/names",
+				template : new ColumnListItem({
+					cells: [
+						new Text({text: "{lastName}"}),
+						new Text({text: "{firstName}"})
+					]
+				})
+			});
+
+			// set the model to the Table, so it knows which data to use
+			table.setModel(model);
+
+			// create the page holding the List
+			var page = new Page({title: "FC Bayern Munich Players List",content: table});
+
+			// create a mobile App holding the page and place the App into the HTML document
+			var app = new App({pages: [page]}).placeAt("content");});
+
+	</script>
+
+
+	</head>
+	<body id='content' class='sapUiBody'>
+	</body>
+</html>
