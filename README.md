@@ -1,4 +1,4 @@
-# Python - SAP UI5
+# Python🐍 - SAP UI5
 
 ### Documentation for all the Sample Components
 
